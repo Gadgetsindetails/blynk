@@ -10,7 +10,7 @@
 
 const int redled = 16;//D0
 const int greenled = 5;//D1
-const int blueled = 9;//D5
+const int blueled = 14;//D5
 
 
 #include "BlynkEdgent.h"
