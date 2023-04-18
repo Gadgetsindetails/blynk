@@ -1,0 +1,40 @@
+#define BLYNK_TEMPLATE_ID "TMPL3AFuvb97Z"
+#define BLYNK_TEMPLATE_NAME "DHT11"
+#define BLYNK_AUTH_TOKEN "4-G2SaCvo_13kIlz0GiGVpI_TkuddM03"
+
+#define BLYNK_PRINT Serial
+
+#include <ESP8266WiFi.h>
+#include <BlynkSimpleEsp8266.h>
+#include <DHT.h>
+
+#define DHTPIN 14 // DHT11 sensor pin D5
+
+#define DHTTYPE DHT11 // DHT11 sensor type
+DHT dht(DHTPIN, DHTTYPE);
+
+char auth[] = BLYNK_AUTH_TOKEN;
+char ssid[] = "chandan";
+char pass[] = "chandans";
+
+void setup()
+{
+ Serial.begin(9600);
+ dht.begin();
+ Blynk.begin(auth, ssid, pass);
+}
+
+void loop()
+{
+ Blynk.run();
+ float temp = dht.readTemperature();
+ float hum = dht.readHumidity();
+ if (isnan(temp) || isnan(hum)) {
+ Serial.println("Failed to read from DHT sensor!");
+ return;
+ }
+
+Blynk.virtualWrite(V1, temp);
+ Blynk.virtualWrite(V2, hum);
+ delay(2000);
+}
